@@ -1,60 +1,53 @@
 package models.entities;
 
+import javax.smartcardio.Card;
+
 public class Bank {
-    private static Client [] client;
-    private static Account [] account;
-    private static int numAcc =10000;
-    private static int clientId =0;
+    /* public static final int NUMBER = 3;*/
     private static int maxList = 5;
+    private static Client[] client =new Client[maxList];
+    private static Account[] account;
+    private static int numAcc = 10000;
+    private static int clientId = 0;
 
-    public static void  initializationBank(){
 
-        client = new Client [maxList];
+    public static void initializationBank(String name, String[] type, Double[] balance, int quantity) {
         client[clientId] = new Client();
-        client[clientId].setName("Kutman");
+        client[clientId].setName(name);
         account = new Account[5];
-        account[0] = new CreditCard();
-        numAcc++;
-        account[0].setNumAcc(numAcc);
-        account[0].setBalance(-1525.0);
-        account[1] = new OwnCard();
-        numAcc++;
-        account[1].setNumAcc(numAcc);
-        account[1].setBalance(7508.0);
-        account[2] = new OwnCard();
-        numAcc++;
-        account[2].setNumAcc(numAcc);
-        account[2].setBalance(7845.0);
-        client[clientId].setAccounts(account);
-        clientId++;
+        for (int i = 0; i <= quantity-1; i++) {
+            if (("CreditCard").equals(type[i])) {
+                account[i] = new CreditCard();
+                account[i].setBalance(balance[i]);
+                numAcc++;
+                account[i].setNumAcc(numAcc);
+                client[clientId].setAccounts(account);
+            } else if (("OwnCard").equals(type[i])) {
+                account[i] = new OwnCard();
+                account[i].setBalance(balance[i]);
+                numAcc++;
+                account[i].setNumAcc(numAcc);
+                System.out.println(clientId);
+                client[clientId].setAccounts(account);
 
-        client[clientId] = new Client();
-        client[clientId].setName("Piter");
-        account = new Account[5];
-        account[0] = new CreditCard();
-        numAcc++;
-        account[0].setNumAcc(numAcc);
-        account[0].setBalance(-8957.0);
-        account[1] = new OwnCard();
-        numAcc++;
-        account[1].setNumAcc(numAcc);
-        account[1].setBalance(8574.0);
-        client[clientId].setAccounts(account);
-        Display.printAllClient(client);
+            }
+        }
         clientId++;
     }
 
-    public static void printAllClient(){
+    public static void printAllClient() {
         Display.printAllClient(client);
     }
-    public static void newClient(String Name, String typeAccount, double balance ){
+
+    public static void initClient(String Name, String typeAccount, double balance) {
        /* int size= client.length+1;
         if ((size - clientId)<NUMBER) {
             client = Loading.IncreasArr(client);
         }else {
             client[clientId] = new Client();
         }*/
-        client[clientId]=new Client();
+        client[clientId] = new Client();
+
         client[clientId].setName(Name);
         account = new Account[5];
         if (("CreditCard").equals(typeAccount)) {
@@ -62,7 +55,7 @@ public class Bank {
         } else {
             if (("OwnCard").equals(typeAccount)) {
                 account[0] = new OwnCard();
-            }  else {
+            } else {
                 account[0] = new OwnCard();
             }
         }
@@ -76,25 +69,28 @@ public class Bank {
         // Display.printAllClient(client);
         Display.printLine();
     }
+
     public static void searchCliName(String nameClient) {
-        if (("").equals(nameClient)==false) {
+        if (("").equals(nameClient) == false) {
             Display.printSearchName(nameClient);
             Display.searchName(client, nameClient);
         }
 
     }
-    public static void searchAccount(int numberAccount){
+
+    public static void searchAccount(int numberAccount) {
         Display.searchAccount(numberAccount);
         Loading.searchAccount(client, numberAccount);
     }
-    public static void blockAccount(int numberAccount){
-        if (numberAccount>0) {
+
+    public static void blockAccount(int numberAccount) {
+        if (numberAccount > 0) {
             Loading.blockAccount(client, numberAccount);
         }
     }
 
     public static void unblockAccount(int numberAcc) {
-        if (numberAcc>0) {
+        if (numberAcc > 0) {
             Loading.unblockAccount(client, numberAcc);
         }
     }
